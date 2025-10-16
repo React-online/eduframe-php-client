@@ -10,10 +10,7 @@ class CatalogProduct extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'slug',
@@ -35,25 +32,11 @@ class CatalogProduct extends Resource
         'created_at'
     ];
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'CatalogProduct';
+    protected string $endpoint = 'catalog/products';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'catalog/products';
+    protected string $namespace = 'catalog_product';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'catalog_product';
-
-    /**
-     * @var array
-     */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'course_tab_contents' => [
             'entity' => CourseTabContent::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,

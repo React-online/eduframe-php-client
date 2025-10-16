@@ -10,10 +10,7 @@ class Meeting extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'planned_course_id',
@@ -26,13 +23,7 @@ class Meeting extends Resource
         'created_at'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'meetings';
+    protected string $endpoint = 'meetings';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'meeting';
+    protected string $namespace = 'meeting';
 }

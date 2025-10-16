@@ -9,10 +9,7 @@ class PaymentOption extends Resource
 {
     use FindAll;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'extra_cost',
@@ -20,13 +17,7 @@ class PaymentOption extends Resource
         'multiplier'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'payment_options';
+    protected string $endpoint = 'payment_options';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'payment_options';
+    protected string $namespace = 'payment_options';
 }

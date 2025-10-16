@@ -15,55 +15,28 @@ const PRODUCTION = 'production';
 const TESTING = 'testing';
 const STAGING = 'staging';
 
-/**
- * Class Connection
- * @package Eduframe
- */
 class Connection
 {
-    /**
-     * @var string
-     */
-    private $apiUrl = 'https://api.eduframe.nl/api/v1';
+    private string $apiUrl = 'https://api.eduframe.nl/api/v1';
 
-    /**
-     * @var
-     */
-    private $accessToken;
+    private ?string $accessToken = null;
 
-    /**
-     * @var Client
-     */
-    private $client;
+    private ?Client $client = null;
 
-    /**
-     * @var Configuration
-     */
-    private $clientConfig;
+    private array $clientConfig;
 
-    /**
-     * @var array Middlewares for the Guzzle 6 client
-     */
-    protected $middleWares = [];
+    protected array $middleWares = [];
 
-    /**
-     * @var bool
-     */
-    private $stage = PRODUCTION;
+    private string $stage = PRODUCTION;
 
-    /**
-     * Eduframe constructor.
-     * @param \Eduframe\Connection $connection
-     */
-    public function __construct(array $clientConfig = []) {
+    public function __construct(array $clientConfig = [])
+    {
         $this->clientConfig = $clientConfig;
     }
 
-    /**
-     * @return Client
-     */
-    private function client() {
-        if ( $this->client ) {
+    private function client(): Client
+    {
+        if ($this->client) {
             return $this->client;
         }
 
@@ -85,110 +58,97 @@ class Connection
         return $this->client;
     }
 
-    /**
-     * Insert a Middleware for the Guzzle Client
-     * @param $middleWare
-     */
-    public function insertMiddleWare($middleWare) {
+    public function insertMiddleWare(callable $middleWare): void
+    {
         $this->middleWares[] = $middleWare;
     }
 
-    /**
-     * @return Client
-     */
-    public function connect() {
-        $client = $this->client();
-
-        return $client;
+    public function connect(): Client
+    {
+        return $this->client();
     }
 
-    /**
-     * @param string $method
-     * @param string $endpoint
-     * @param null $body
-     * @param array $params
-     * @param array $headers
-     * @return \GuzzleHttp\Psr7\Request
-     */
-    private function createRequest($method = 'GET', $endpoint = '', $body = null, array $params = [], array $headers = []) {
+    private function createRequest(
+        string $method = 'GET',
+        string $endpoint = '',
+        ?string $body = null,
+        array $params = [],
+        array $headers = []
+    ): Request {
         // Add default json headers to the request
-        $headers = array_merge( $headers, [
+        $headers = array_merge($headers, [
             'Accept' => 'application/json',
-        ] );
+        ]);
 
         // Add content type when [POST PATCH PUT] request
         if (in_array($method, ['POST', 'PATCH', 'PUT'])) {
-            $headers = array_merge( $headers, [
+            $headers = array_merge($headers, [
                 'Content-Type' => 'application/json'
-            ] );
+            ]);
         }
 
         // If we have a token, sign the request
-        if ( ! empty($this->accessToken) ) {
+        if (!empty($this->accessToken)) {
             $headers['Authorization'] = 'Bearer ' . $this->accessToken;
         }
 
         // Create param string
-        if ( ! empty($params) ) {
+        if (!empty($params)) {
             $endpoint .= '?' . http_build_query($params);
         }
 
         // Create the request
-        $request = new Request($method, $endpoint, $headers, $body);
-
-        return $request;
+        return new Request($method, $endpoint, $headers, $body);
     }
 
     /**
-     * @param string $method
-     * @param $endpoint
-     * @param null $body
-     * @param array $params
-     * @param array $headers
-     * @return \GuzzleHttp\Psr7\Request
-     * @throws \Eduframe\Exceptions\ApiException
+     * @throws ApiException
      */
-    private function createRequestNoJson($method = 'GET', $endpoint = '', $body = null, array $params = [], array $headers = []) {
+    private function createRequestNoJson(
+        string $method = 'GET',
+        string $endpoint = '',
+        ?string $body = null,
+        array $params = [],
+        array $headers = []
+    ): Request {
         // Add default json headers to the request
-        $headers = array_merge( $headers, [
+        $headers = array_merge($headers, [
             'Content-type' => 'application/x-www-form-urlencoded'
-        ] );
+        ]);
 
         // If access token is not set or token has expired, acquire new token
-        if ( empty($this->accessToken) ) {
+        if (empty($this->accessToken)) {
             throw new ApiException('No access token set.');
         }
+
         // If we have a token, sign the request
-        if ( ! empty($this->accessToken) ) {
+        if (!empty($this->accessToken)) {
             $headers['Authorization'] = 'Bearer ' . $this->accessToken;
         }
+
         // Create param string
-        if ( ! empty($params) ) {
+        if (!empty($params)) {
             $endpoint .= '?' . http_build_query($params);
         }
-        // Create the request
-        $request = new Request($method, $endpoint, $headers, $body);
 
-        return $request;
+        // Create the request
+        return new Request($method, $endpoint, $headers, $body);
     }
 
     /**
-     * @param string $url
-     * @param array $params
-     * @param bool $fetchAll
-     * @return mixed
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get($url, array $params = [], $fetchAll = false) {
+    public function get(string $url, array $params = [], bool $fetchAll = false): array
+    {
         try {
             $request  = $this->createRequest('GET', $this->formatUrl($url, 'get'), null, $params);
             $response = $this->client()->send($request);
 
             $json = $this->parseResponse($response);
 
-            if ( $fetchAll === true ) {
-                while ( $nextParams = $this->getNextParams($response->getHeaderLine('Link')) ) {
+            if ($fetchAll === true) {
+                while ($nextParams = $this->getNextParams($response->getHeaderLine('Link'))) {
                     $request  = $this->createRequest('GET', $this->formatUrl($url, 'get'), null, $nextParams);
                     $response = $this->client()->send($request);
                     $json = array_merge($json, $this->parseResponse($response));
@@ -196,114 +156,100 @@ class Connection
             }
 
             return $json;
-        } catch ( Exception $e ) {
+        } catch (Exception $e) {
             throw $this->parseExceptionForErrorMessages($e);
         }
     }
 
     /**
-     * @param string $url
-     * @param string $body
-     * @return mixed
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post($url, $body) {
+    public function post(string $url, string $body): array
+    {
         try {
             $request = $this->createRequest('POST', $this->formatUrl($url, 'post'), $body);
             $response = $this->client()->send($request);
 
             return $this->parseResponse($response);
-        } catch ( Exception $e ) {
+        } catch (Exception $e) {
             throw $this->parseExceptionForErrorMessages($e);
         }
     }
 
     /**
-     * @param string $url
-     * @param string $body
-     * @return mixed
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function patch($url, $body) {
+    public function patch(string $url, string $body): array
+    {
         try {
             $request  = $this->createRequest('PUT', $this->formatUrl($url, 'patch'), $body);
             $response = $this->client()->send($request);
 
             return $this->parseResponse($response);
-        } catch ( Exception $e ) {
+        } catch (Exception $e) {
             throw $this->parseExceptionForErrorMessages($e);
         }
     }
 
     /**
-     * @param string $url
-     * @param string $body
-     * @return mixed
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function delete($url, $body = null) {
+    public function delete(string $url, ?string $body = null): array
+    {
         try {
             $request  = $this->createRequestNoJson('DELETE', $this->formatUrl($url, 'delete'), $body);
             $response = $this->client()->send($request);
 
             return $this->parseResponse($response);
-        } catch ( Exception $e ) {
+        } catch (Exception $e) {
             throw $this->parseExceptionForErrorMessages($e);
         }
     }
 
     /**
-     * @param string $url
-     * @param array $options
-     * @return mixed
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function upload($url, $options) {
+    public function upload(string $url, array $options): array
+    {
         try {
             $request = $this->createRequestNoJson('POST', $this->formatUrl($url, 'post'), null);
 
             $response = $this->client()->send($request, $options);
 
             return $this->parseResponse($response);
-        } catch ( Exception $e ) {
+        } catch (Exception $e) {
             throw $this->parseExceptionForErrorMessages($e);
         }
     }
 
-    /**
-     * @param mixed $accessToken
-     */
-    public function setAccessToken($accessToken) {
+    public function setAccessToken(string $accessToken): void
+    {
         $this->accessToken = $accessToken;
     }
 
     /**
-     * @param Response $response
-     * @return mixed
      * @throws ApiException
      */
-    private function parseResponse(Response $response) {
+    private function parseResponse(Response $response): array
+    {
         try {
             Psr7\Message::rewindBody($response);
             return json_decode($response->getBody()->getContents(), true);
-        } catch ( \RuntimeException $e ) {
+        } catch (\RuntimeException $e) {
             throw new ApiException($e->getMessage());
         }
     }
 
-    /**
-     * @param $headerLine
-     * @return bool | array
-     */
-    private function getNextParams($headerLine) {
+    private function getNextParams(string $headerLine): array|false
+    {
         $links = Psr7\Header::parse($headerLine);
 
         foreach ($links as $link) {
-            if ( isset($link['rel']) && $link['rel'] === 'next' ) {
+            if (isset($link['rel']) && $link['rel'] === 'next') {
                 $query = parse_url(trim($link[0], '<>'), PHP_URL_QUERY);
                 parse_str($query, $params);
 
@@ -314,26 +260,20 @@ class Connection
         return false;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAccessToken() {
+    public function getAccessToken(): ?string
+    {
         return $this->accessToken;
     }
 
-    /**
-     * Parse the response in the Exception to return the Exact error messages.
-     * @param Exception $exception
-     * @return \Eduframe\Exceptions\ApiException
-     */
-    private function parseExceptionForErrorMessages(Exception $exception) {
-        if ( ! $exception instanceof BadResponseException ) {
+    private function parseExceptionForErrorMessages(Exception $exception): ApiException
+    {
+        if (!$exception instanceof BadResponseException) {
             return new ApiException($exception->getMessage(), 0, $exception);
         }
 
         $response = $exception->getResponse();
 
-        if ( null === $response ) {
+        if (null === $response) {
             return new ApiException('Response is NULL.', 0, $exception);
         }
 
@@ -341,7 +281,7 @@ class Connection
         $responseBody        = $response->getBody()->getContents();
         $decodedResponseBody = json_decode($responseBody, true);
 
-        if ( null !== $decodedResponseBody && isset($decodedResponseBody['error']['message']['value']) ) {
+        if (null !== $decodedResponseBody && isset($decodedResponseBody['error']['message']['value'])) {
             $errorMessage = $decodedResponseBody['error']['message']['value'];
         } else {
             $errorMessage = $responseBody;
@@ -354,25 +294,19 @@ class Connection
         );
     }
 
-    /**
-     * @param string $url
-     * @param string $method
-     * @return string
-     */
-    private function formatUrl($url, $method = 'get') {
-        if ( $this->stage == TESTING ) {
+    private function formatUrl(string $url, string $method = 'get'): string
+    {
+        if ($this->stage === TESTING) {
             return 'https://api.testing.eduframe.dev/api/v1' . '/' . $url;
-        } else if ( $this->stage == STAGING ) {
+        } elseif ($this->stage === STAGING) {
             return 'https://api.edufra.me/api/v1' . '/' . $url;
         }
 
         return $this->apiUrl  . '/' . $url;
     }
 
-        /**
-     * @param bool $testing
-     */
-    public function setTesting($testing) {
+    public function setTesting(bool $testing): void
+    {
         if ($testing) {
             $this->stage = TESTING;
         } else {
@@ -380,17 +314,13 @@ class Connection
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function getStage() {
+    public function getStage(): string
+    {
         return $this->stage;
     }
 
-    /**
-     * @param int $stage
-     */
-    public function setStage($stage) {
+    public function setStage(string $stage): void
+    {
         $this->stage = $stage;
     }
 }

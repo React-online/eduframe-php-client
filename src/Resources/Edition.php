@@ -10,10 +10,7 @@ class Edition extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'program_id',
         'name',
@@ -27,19 +24,7 @@ class Edition extends Resource
         'updated_at',
         'created_at'
     ];
+    protected string $endpoint = 'program/editions';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Edition';
-
-    /**
-     * @var string
-     */
-    protected $endpoint = 'program/editions';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'edition';
+    protected string $namespace = 'edition';
 }

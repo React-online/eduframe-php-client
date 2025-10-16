@@ -28,33 +28,15 @@ class Teacher extends Resource
         'updated_at',
         'created_at'
     ];
+    protected string $endpoint = 'teachers';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Teachers';
+    protected string $namespace = 'teacher';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'teachers';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'teacher';
-
-    /**
-     * @var array
-     */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'address' => Address::class
     ];
 
-    /**
-     * @var array
-     */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'labels' => [
             'entity' => Label::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,

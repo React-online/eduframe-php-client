@@ -9,10 +9,7 @@ class SignupQuestion extends Resource
 {
     use FindAll;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'position',
         'field_type',
@@ -23,13 +20,7 @@ class SignupQuestion extends Resource
         'choices'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'signup_questions';
+    protected string $endpoint = 'signup_questions';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'signup_questions';
+    protected string $namespace = 'signup_questions';
 }

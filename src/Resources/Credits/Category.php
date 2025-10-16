@@ -7,21 +7,12 @@ use Eduframe\Resource;
 class Category extends Resource
 {
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'credit_category';
+    protected string $endpoint = 'credit_category';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'credit_category';
+    protected string $namespace = 'credit_category';
 }

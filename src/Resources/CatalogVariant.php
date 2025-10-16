@@ -10,10 +10,7 @@ class CatalogVariant extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'product_id',
@@ -31,18 +28,7 @@ class CatalogVariant extends Resource
         'currency'
     ];
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'CatalogVariant';
+    protected string $endpoint = 'catalog/variants';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'catalog/variants';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'catalog_variant';
+    protected string $namespace = 'catalog_variant';
 }

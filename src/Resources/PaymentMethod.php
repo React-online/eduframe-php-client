@@ -9,22 +9,13 @@ class PaymentMethod extends Resource
 {
     use FindAll;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'gateway'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'payment_methods';
+    protected string $endpoint = 'payment_methods';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'payment_methods';
+    protected string $namespace = 'payment_methods';
 }

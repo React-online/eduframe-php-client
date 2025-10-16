@@ -6,11 +6,7 @@ use Eduframe\Resource;
 
 class Address extends Resource
 {
-
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'addressee',
         'address',
@@ -21,13 +17,7 @@ class Address extends Resource
         'created_at'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'addresses';
+    protected string $endpoint = 'addresses';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'address';
+    protected string $namespace = 'address';
 }

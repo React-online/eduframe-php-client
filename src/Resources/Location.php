@@ -10,36 +10,18 @@ class Location extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'address',
         'updated_at',
         'created_at'
     ];
+    protected string $endpoint = 'course_locations';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Location';
+    protected string $namespace = 'location';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'course_locations';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'location';
-
-    /**
-     * @var array
-     */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'address' => Address::class,
     ];
 }

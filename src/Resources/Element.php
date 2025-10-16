@@ -10,29 +10,14 @@ class Element extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'course_id',
         'edition_id',
         'planned_course_id',
         'position'
     ];
+    protected string $endpoint = 'program/elements';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Element';
-
-    /**
-     * @var string
-     */
-    protected $endpoint = 'program/elements';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'element';
+    protected string $namespace = 'element';
 }

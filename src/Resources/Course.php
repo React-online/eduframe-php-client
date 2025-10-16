@@ -11,10 +11,7 @@ class Course extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'category_id',
         'slug',
@@ -40,25 +37,11 @@ class Course extends Resource
         'created_at'
     ];
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Course';
+    protected string $endpoint = 'courses';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'courses';
+    protected string $namespace = 'course';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'course';
-
-    /**
-     * @var array
-     */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'course_tab_contents' => [
             'entity' => CourseTabContent::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,

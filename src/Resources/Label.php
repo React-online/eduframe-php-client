@@ -18,19 +18,7 @@ class Label extends Resource
         'updated_at',
         'created_at'
     ];
+    protected string $endpoint = 'labels';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Labels';
-
-    /**
-     * @var string
-     */
-    protected $endpoint = 'labels';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'label';
+    protected string $namespace = 'label';
 }

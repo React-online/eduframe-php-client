@@ -7,33 +7,15 @@ use Eduframe\Resource;
 class CourseTab extends Resource
 {
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'name',
         'position'
     ];
+    protected string $endpoint = 'course_tabs';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'CourseTab';
+    protected string $namespace = 'course_tab';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'course_tabs';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'course_tab';
-
-    /**
-     * @var array
-     */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'course_tab' => CourseTab::class,
     ];
 }

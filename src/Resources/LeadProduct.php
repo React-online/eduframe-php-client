@@ -7,26 +7,11 @@ use Eduframe\Resource;
 class LeadProduct extends Resource
 {
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'catalog_product_id',
         'catalog_variant_id'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'lead_products';
-
-    /**
-     * @var string
-     */
-    protected $model_name = 'LeadProduct';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'lead_products';
+    protected string $endpoint = 'lead_products';
+    protected string $namespace = 'lead_products';
 }

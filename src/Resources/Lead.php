@@ -11,10 +11,7 @@ class Lead extends Resource
 {
     use FindAll, FindOne, Storable;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'title',
         'company_name',
@@ -39,27 +36,15 @@ class Lead extends Resource
         'created_at'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'leads';
+    protected string $endpoint = 'leads';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'lead';
+    protected string $namespace = 'lead';
 
-    /**
-     * @var array
-     */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'address' => Address::class,
     ];
 
-    /**
-     * @var array
-     */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'labels' => [
             'entity' => Label::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,

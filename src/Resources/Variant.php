@@ -10,28 +10,13 @@ class Variant extends Resource
 {
     use FindAll, FindOne;
     
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'updated_at',
         'created_at'
     ];
+    protected string $endpoint = 'course_variants';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'CourseVariant';
-
-    /**
-     * @var string
-     */
-    protected $endpoint = 'course_variants';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'course_variant';
+    protected string $namespace = 'course_variant';
 }

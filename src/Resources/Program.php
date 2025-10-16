@@ -10,10 +10,7 @@ class Program extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'category_id',
         'name',
@@ -28,26 +25,11 @@ class Program extends Resource
         'updated_at',
         'created_at'
     ];
+    protected string $endpoint = 'program/programs';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Program';
+    protected string $namespace = 'program';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'program/programs';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'program';
-
-    /**
-     * @var array
-     */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'course_tab_contents' => [
             'entity' => CourseTabContent::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,

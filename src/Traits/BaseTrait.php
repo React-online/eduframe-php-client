@@ -4,31 +4,11 @@ namespace Eduframe\Traits;
 
 trait BaseTrait
 {
+    abstract protected function connection(): \Eduframe\Connection;
 
-    /**
-     * @return \Eduframe\Connection
-     * @see \Eduframe\Model::connection()
-     */
-    abstract protected function connection();
+    abstract protected function getEndpoint(): string;
 
-    /**
-     * @return string
-     * @see \Eduframe\Model::getEndpoint()
-     */
-    abstract protected function getEndpoint();
+    abstract protected function collectionFromResult(array $result): array;
 
-    /**
-     * @param array $result
-     * @return array
-     * @see \Eduframe\Model::collectionFromResult()
-     */
-    abstract protected function collectionFromResult(array $result);
-
-    /**
-     * Create a new object with the response from the API
-     * @param $response
-     * @return static
-     * @see \Eduframe\Model::makeFromResponse()
-     */
-    abstract protected function makeFromResponse(array $response);
+    abstract protected function makeFromResponse(array $response): static;
 }

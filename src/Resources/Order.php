@@ -10,10 +10,7 @@ class Order extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'number',
         'status',
@@ -28,20 +25,11 @@ class Order extends Resource
         'created_at'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'orders';
+    protected string $endpoint = 'orders';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'order';
+    protected string $namespace = 'order';
 
-    /**
-     * @var array
-     */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'order_items' => [
             'entity' => OrderItem::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,

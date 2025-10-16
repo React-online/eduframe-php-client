@@ -10,10 +10,7 @@ class Category extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'slug',
@@ -28,18 +25,7 @@ class Category extends Resource
         'created_at'
     ];
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Category';
+    protected string $endpoint = 'categories';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'categories';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'category';
+    protected string $namespace = 'category';
 }

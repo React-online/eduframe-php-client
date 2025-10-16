@@ -10,10 +10,7 @@ class PlannedCourse extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'course_id',
         'course_location_id',
@@ -39,26 +36,11 @@ class PlannedCourse extends Resource
         'updated_at',
         'created_at'
     ];
+    protected string $endpoint = 'planned_courses';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'PlannedCourse';
+    protected string $namespace = 'planned_course';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'planned_courses';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'planned_course';
-
-    /**
-     * @var array
-     */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'meetings'    => [
             'entity' => Meeting::class,
             'type'   => self::NESTING_TYPE_ARRAY_OF_OBJECTS,
@@ -69,10 +51,7 @@ class PlannedCourse extends Resource
         ]
     ];
 
-    /**
-     * @var array
-     */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'course_variant'  => Variant::class,
         'course_location' => Location::class,
     ];

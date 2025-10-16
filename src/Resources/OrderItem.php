@@ -7,20 +7,11 @@ use Eduframe\Resource;
 class OrderItem extends Resource
 {
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'student_id',
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'order_items';
+    protected string $endpoint = 'order_items';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'order_items';
+    protected string $namespace = 'order_items';
 }

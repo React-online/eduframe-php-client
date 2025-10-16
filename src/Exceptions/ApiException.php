@@ -4,7 +4,6 @@ namespace Eduframe\Exceptions;
 
 use Exception;
 
-class ApiException extends Exception
+final class ApiException extends Exception
 {
-
 }

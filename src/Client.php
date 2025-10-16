@@ -27,227 +27,138 @@ use Eduframe\Resources\Teacher;
 use Eduframe\Resources\CatalogProduct;
 use Eduframe\Resources\CatalogVariant;
 
-/**
- * Class Eduframe
- * @package Eduframe
- */
 class Client
 {
-    /**
-     * The HTTP connection
-     * @var \Eduframe\Connection
-     */
-    protected $connection;
-
-    /**
-     * Eduframe constructor.
-     * @param \Eduframe\Connection $connection
-     */
-    public function __construct($connection) {
-        $this->connection = $connection;
+    public function __construct(protected Connection $connection)
+    {
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Account
-     */
-    public function accounts($attributes = []) {
+    public function accounts(array $attributes = []): Account
+    {
         return new Account($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Address
-     */
-    public function addresses($attributes = []) {
+    public function addresses(array $attributes = []): Address
+    {
         return new Address($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Category
-     */
-    public function categories($attributes = []) {
+    public function categories(array $attributes = []): Category
+    {
         return new Category($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Course
-     */
-    public function courses($attributes = []) {
+    public function courses(array $attributes = []): Course
+    {
         return new Course($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Program
-     */
-    public function programs($attributes = []) {
+    public function programs(array $attributes = []): Program
+    {
         return new Program($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     *
-     * @return \Eduframe\Resources\Location
-     */
-    public function course_locations($attributes = []) {
+    public function course_locations(array $attributes = []): Location
+    {
         return new Location($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     *
-     * @return \Eduframe\Resources\Variant
-     */
-    public function course_variants($attributes = []) {
+    public function course_variants(array $attributes = []): Variant
+    {
         return new Variant($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Edition
-     */
-    public function editions($attributes = []) {
+    public function editions(array $attributes = []): Edition
+    {
         return new Edition($this->connection, $attributes);
     }
 
     /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Element
-     *
      * @deprecated This endpoint will only return elements of type 'Course Element'
      * that are directly linked to the program edition(s). It does not consider possible blocks.
      */
-    public function elements($attributes = []) {
+    public function elements(array $attributes = []): Element
+    {
         return new Element($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Enrollment
-     */
-    public function enrollments($attributes = []) {
+    public function enrollments(array $attributes = []): Enrollment
+    {
         return new Enrollment($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Label
-     */
-    public function labels($attributes = []) {
+    public function labels(array $attributes = []): Label
+    {
         return new Label($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Lead
-     */
-    public function leads($attributes = []) {
+    public function leads(array $attributes = []): Lead
+    {
         return new Lead($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\LeadInterest
-     */
-    public function lead_interests($attributes = []) {
+    public function lead_interests(array $attributes = []): LeadInterest
+    {
         return new LeadInterest($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\LeadProduct
-     */
-    public function lead_products($attributes = []) {
+    public function lead_products(array $attributes = []): LeadProduct
+    {
         return new LeadProduct($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Meeting
-     */
-    public function meetings($attributes = []) {
+    public function meetings(array $attributes = []): Meeting
+    {
         return new Meeting($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Order
-     */
-    public function orders($attributes = []) {
+    public function orders(array $attributes = []): Order
+    {
         return new Order($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\PaymentMethod
-     */
-    public function payment_methods($attributes = []) {
+    public function payment_methods(array $attributes = []): PaymentMethod
+    {
         return new PaymentMethod($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\PaymentOption
-     */
-    public function payment_options($attributes = []) {
+    public function payment_options(array $attributes = []): PaymentOption
+    {
         return new PaymentOption($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\PlannedCourse
-     */
-    public function planned_courses($attributes = []) {
+    public function planned_courses(array $attributes = []): PlannedCourse
+    {
         return new PlannedCourse($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Referral
-     */
-    public function referrals($attributes = []) {
+    public function referrals(array $attributes = []): Referral
+    {
         return new Referral($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\SignupQuestion
-     */
-    public function signup_questions($attributes = []) {
+    public function signup_questions(array $attributes = []): SignupQuestion
+    {
         return new SignupQuestion($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\Teacher
-     */
-    public function teachers($attributes = []) {
+    public function teachers(array $attributes = []): Teacher
+    {
         return new Teacher($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\CatalogProduct
-     */
-    public function catalog_products(array $attributes = []): CatalogProduct {
+    public function catalog_products(array $attributes = []): CatalogProduct
+    {
         return new CatalogProduct($this->connection, $attributes);
     }
 
-    /**
-     * @param array $attributes
-     * @return \Eduframe\Resources\CatalogVariant
-     */
-    public function catalog_variants(array $attributes = []): CatalogVariant {
+    public function catalog_variants(array $attributes = []): CatalogVariant
+    {
         return new CatalogVariant($this->connection, $attributes);
     }
 
-    /**
-     * @return \Eduframe\Connection
-     */
-    public function getConnection() {
+    public function getConnection(): Connection
+    {
         return $this->connection;
     }
 }

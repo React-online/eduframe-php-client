@@ -7,29 +7,17 @@ use Eduframe\Resource;
 class Definition extends Resource
 {
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'credits',
         'type'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'credit_definitions';
+    protected string $endpoint = 'credit_definitions';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'credit_definition';
+    protected string $namespace = 'credit_definition';
 
-    /**
-     * @var array
-     */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'type' => Type::class,
     ];
 }

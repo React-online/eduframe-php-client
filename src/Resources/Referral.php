@@ -9,26 +9,11 @@ class Referral extends Resource
 {
     use FindAll;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name'
     ];
+    protected string $endpoint = 'referrals';
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Referral';
-
-    /**
-     * @var string
-     */
-    protected $endpoint = 'referrals';
-
-    /**
-     * @var string
-     */
-    protected $namespace = 'referrals';
+    protected string $namespace = 'referrals';
 }

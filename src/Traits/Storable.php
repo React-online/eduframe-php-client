@@ -2,49 +2,43 @@
 
 namespace Eduframe\Traits;
 
-/**
- * Class Storable
- * @package Eduframe|Traits
- */
 trait Storable
 {
     use BaseTrait;
 
     /**
-     * @return mixed
      * @throws \Eduframe\Exceptions\ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function save() {
-        if ( $this->exists() ) {
+    public function save(): static|bool
+    {
+        if ($this->exists()) {
             return $this->update();
-        } else {
-            return $this->insert();
         }
+
+        return $this->insert();
     }
 
     /**
-     * @return mixed
      * @throws \Eduframe\Exceptions\ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function insert() {
-
+    public function insert(): static
+    {
         $result = $this->connection()->post($this->getEndpoint(), $this->json());
 
         return $this->selfFromResponse($result);
     }
 
     /**
-     * @return mixed
      * @throws \Eduframe\Exceptions\ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function update() {
-
+    public function update(): static|bool
+    {
         $result = $this->connection()->patch($this->getEndpoint() . '/' . urlencode($this->id), $this->json());
 
-        if ( $result === 200 ) {
+        if ($result === 200) {
             return true;
         }
 

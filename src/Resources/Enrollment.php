@@ -10,10 +10,7 @@ class Enrollment extends Resource
 {
     use FindAll, FindOne;
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'student_id',
         'status',
@@ -23,13 +20,7 @@ class Enrollment extends Resource
         'created_at'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'enrollments';
+    protected string $endpoint = 'enrollments';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'enrollment';
+    protected string $namespace = 'enrollment';
 }

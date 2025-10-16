@@ -10,7 +10,7 @@ class Account extends Resource
 {
     use FindAll, FindOne;
 
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'email',
@@ -22,32 +22,15 @@ class Account extends Resource
         'created_at'
     ];
 
-    /**
-     * @var string
-     */
-    protected $model_name = 'Accounts';
+    protected string $endpoint = 'accounts';
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'accounts';
+    protected string $namespace = 'account';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'account';
-
-    /**
-     * @var array
-     */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'address' => Address::class,
     ];
 
-    /**
-     * @var array
-     */
-    protected $multipleNestedEntities = [
+    protected array $multipleNestedEntities = [
         'signup_answers' => [
             'entity' => SignupAnswer::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,

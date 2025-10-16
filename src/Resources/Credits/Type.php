@@ -8,29 +8,17 @@ use Eduframe\Resources\Category;
 class Type extends Resource
 {
 
-    /**
-     * @var array
-     */
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'category'
     ];
 
-    /**
-     * @var string
-     */
-    protected $endpoint = 'credit_type';
+    protected string $endpoint = 'credit_type';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'credit_type';
+    protected string $namespace = 'credit_type';
 
-    /**
-     * @var array
-     */
-    protected $singleNestedEntities = [
+    protected array $singleNestedEntities = [
         'category' => Category::class,
     ];
 }
