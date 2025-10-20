@@ -43,7 +43,6 @@ public function __construct(protected Connection $connection) {
   - Complex behavior documentation
 
 #### Consistent Formatting
-- Updated method braces to be on new lines consistently
 - Removed unnecessary spacing
 - Fixed comparison operators (changed `==` to `===` for type-safe comparisons)
 - Removed trailing `else` after `return` statements (using early returns pattern)

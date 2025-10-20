@@ -10,8 +10,7 @@ trait Removable
      * @throws \Eduframe\Exceptions\ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function delete(): array
-    {
+    public function delete(): array {
         return $this->connection()->delete($this->getEndpoint() . '/' . urlencode($this->id));
     }
 }

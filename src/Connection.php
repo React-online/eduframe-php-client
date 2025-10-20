@@ -29,13 +29,11 @@ class Connection
 
     private string $stage = PRODUCTION;
 
-    public function __construct(array $clientConfig = [])
-    {
+    public function __construct(array $clientConfig = []) {
         $this->clientConfig = $clientConfig;
     }
 
-    private function client(): Client
-    {
+    private function client(): Client {
         if ($this->client) {
             return $this->client;
         }
@@ -58,13 +56,11 @@ class Connection
         return $this->client;
     }
 
-    public function insertMiddleWare(callable $middleWare): void
-    {
+    public function insertMiddleWare(callable $middleWare): void {
         $this->middleWares[] = $middleWare;
     }
 
-    public function connect(): Client
-    {
+    public function connect(): Client {
         return $this->client();
     }
 
@@ -139,8 +135,7 @@ class Connection
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(string $url, array $params = [], bool $fetchAll = false): array
-    {
+    public function get(string $url, array $params = [], bool $fetchAll = false): array {
         try {
             $request  = $this->createRequest('GET', $this->formatUrl($url, 'get'), null, $params);
             $response = $this->client()->send($request);
@@ -165,8 +160,7 @@ class Connection
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post(string $url, string $body): array
-    {
+    public function post(string $url, string $body): array {
         try {
             $request = $this->createRequest('POST', $this->formatUrl($url, 'post'), $body);
             $response = $this->client()->send($request);
@@ -181,8 +175,7 @@ class Connection
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function patch(string $url, string $body): array
-    {
+    public function patch(string $url, string $body): array {
         try {
             $request  = $this->createRequest('PUT', $this->formatUrl($url, 'patch'), $body);
             $response = $this->client()->send($request);
@@ -197,8 +190,7 @@ class Connection
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function delete(string $url, ?string $body = null): array
-    {
+    public function delete(string $url, ?string $body = null): array {
         try {
             $request  = $this->createRequestNoJson('DELETE', $this->formatUrl($url, 'delete'), $body);
             $response = $this->client()->send($request);
@@ -213,8 +205,7 @@ class Connection
      * @throws ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function upload(string $url, array $options): array
-    {
+    public function upload(string $url, array $options): array {
         try {
             $request = $this->createRequestNoJson('POST', $this->formatUrl($url, 'post'), null);
 
@@ -226,16 +217,14 @@ class Connection
         }
     }
 
-    public function setAccessToken(string $accessToken): void
-    {
+    public function setAccessToken(string $accessToken): void {
         $this->accessToken = $accessToken;
     }
 
     /**
      * @throws ApiException
      */
-    private function parseResponse(Response $response): array
-    {
+    private function parseResponse(Response $response): array {
         try {
             Psr7\Message::rewindBody($response);
             return json_decode($response->getBody()->getContents(), true);
@@ -244,8 +233,7 @@ class Connection
         }
     }
 
-    private function getNextParams(string $headerLine): array|false
-    {
+    private function getNextParams(string $headerLine): array|false {
         $links = Psr7\Header::parse($headerLine);
 
         foreach ($links as $link) {
@@ -260,13 +248,11 @@ class Connection
         return false;
     }
 
-    public function getAccessToken(): ?string
-    {
+    public function getAccessToken(): ?string {
         return $this->accessToken;
     }
 
-    private function parseExceptionForErrorMessages(Exception $exception): ApiException
-    {
+    private function parseExceptionForErrorMessages(Exception $exception): ApiException {
         if (!$exception instanceof BadResponseException) {
             return new ApiException($exception->getMessage(), 0, $exception);
         }
@@ -294,8 +280,7 @@ class Connection
         );
     }
 
-    private function formatUrl(string $url, string $method = 'get'): string
-    {
+    private function formatUrl(string $url, string $method = 'get'): string {
         if ($this->stage === TESTING) {
             return 'https://api.testing.eduframe.dev/api/v1' . '/' . $url;
         } elseif ($this->stage === STAGING) {
@@ -305,8 +290,7 @@ class Connection
         return $this->apiUrl  . '/' . $url;
     }
 
-    public function setTesting(bool $testing): void
-    {
+    public function setTesting(bool $testing): void {
         if ($testing) {
             $this->stage = TESTING;
         } else {
@@ -314,13 +298,11 @@ class Connection
         }
     }
 
-    public function getStage(): string
-    {
+    public function getStage(): string {
         return $this->stage;
     }
 
-    public function setStage(string $stage): void
-    {
+    public function setStage(string $stage): void {
         $this->stage = $stage;
     }
 }

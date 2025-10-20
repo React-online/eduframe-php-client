@@ -31,23 +31,19 @@ abstract class Resource implements JsonSerializable
      */
     protected array $multipleNestedEntities = [];
 
-    public function __construct(protected Connection $connection, array $attributes = [])
-    {
+    public function __construct(protected Connection $connection, array $attributes = []) {
         $this->fill($attributes);
     }
 
-    public function connection(): Connection
-    {
+    public function connection(): Connection {
         return $this->connection;
     }
 
-    public function attributes(): array
-    {
+    public function attributes(): array {
         return $this->attributes;
     }
 
-    protected function fill(array $attributes): void
-    {
+    protected function fill(array $attributes): void {
         foreach ($this->fillableFromArray($attributes) as $key => $value) {
             if ($this->isFillable($key)) {
                 $this->setAttribute($key, $value);
@@ -55,8 +51,7 @@ abstract class Resource implements JsonSerializable
         }
     }
 
-    protected function fillableFromArray(array $attributes): array
-    {
+    protected function fillableFromArray(array $attributes): array {
         if (count($this->fillable) > 0) {
             return array_intersect_key($attributes, array_flip($this->fillable));
         }
@@ -64,30 +59,25 @@ abstract class Resource implements JsonSerializable
         return $attributes;
     }
 
-    protected function isFillable(string $key): bool
-    {
+    protected function isFillable(string $key): bool {
         return in_array($key, $this->fillable, true);
     }
 
-    protected function setAttribute(string $key, mixed $value): void
-    {
+    protected function setAttribute(string $key, mixed $value): void {
         $this->attributes[$key] = $value;
     }
 
-    public function __get(string $key): mixed
-    {
+    public function __get(string $key): mixed {
         return $this->attributes[$key] ?? null;
     }
 
-    public function __set(string $key, mixed $value): void
-    {
+    public function __set(string $key, mixed $value): void {
         if ($this->isFillable($key)) {
             $this->setAttribute($key, $value);
         }
     }
 
-    public function exists(): bool
-    {
+    public function exists(): bool {
         if (!array_key_exists($this->primaryKey, $this->attributes)) {
             return false;
         }
@@ -95,15 +85,13 @@ abstract class Resource implements JsonSerializable
         return !empty($this->attributes[$this->primaryKey]);
     }
 
-    public function json(): string
-    {
+    public function json(): string {
         $array = $this->getArrayWithNestedObjects();
 
         return json_encode($array);
     }
 
-    public function jsonWithNamespace(): string
-    {
+    public function jsonWithNamespace(): string {
         if ($this->namespace !== '') {
             return json_encode([$this->namespace => $this->getArrayWithNestedObjects()], JSON_FORCE_OBJECT);
         }
@@ -112,13 +100,11 @@ abstract class Resource implements JsonSerializable
     }
 
     #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
-    {
+    public function jsonSerialize(): array {
         return $this->attributes();
     }
 
-    private function getArrayWithNestedObjects(bool $useAttributesAppend = true): array
-    {
+    private function getArrayWithNestedObjects(bool $useAttributesAppend = true): array {
         $result = [];
         $multipleNestedEntities = $this->getMultipleNestedEntities();
 
@@ -156,16 +142,14 @@ abstract class Resource implements JsonSerializable
         return $result;
     }
 
-    public function makeFromResponse(array $response): static
-    {
+    public function makeFromResponse(array $response): static {
         $entity = new static($this->connection);
         $entity->selfFromResponse($response);
 
         return $entity;
     }
 
-    public function selfFromResponse(array $response): static
-    {
+    public function selfFromResponse(array $response): static {
         $this->fill($response);
 
         foreach ($this->getSingleNestedEntities() as $key => $value) {
@@ -186,8 +170,7 @@ abstract class Resource implements JsonSerializable
         return $this;
     }
 
-    public function collectionFromResult(array $result): array
-    {
+    public function collectionFromResult(array $result): array {
         // If we have one result which is not an assoc array, make it the first element of an array for the
         // collectionFromResult function so we always return a collection from filter
         if ((bool) count(array_filter(array_keys($result), 'is_string'))) {
@@ -202,18 +185,15 @@ abstract class Resource implements JsonSerializable
         return $collection;
     }
 
-    public function getSingleNestedEntities(): array
-    {
+    public function getSingleNestedEntities(): array {
         return $this->singleNestedEntities;
     }
 
-    public function getMultipleNestedEntities(): array
-    {
+    public function getMultipleNestedEntities(): array {
         return $this->multipleNestedEntities;
     }
 
-    public function __debugInfo(): array
-    {
+    public function __debugInfo(): array {
         $result = [];
         foreach ($this->fillable as $attribute) {
             $result[$attribute] = $this->$attribute;
@@ -221,13 +201,11 @@ abstract class Resource implements JsonSerializable
         return $result;
     }
 
-    public function getEndpoint(): string
-    {
+    public function getEndpoint(): string {
         return $this->endpoint;
     }
 
-    public function __isset(string $name): bool
-    {
+    public function __isset(string $name): bool {
         return (isset($this->attributes[$name]) && null !== $this->attributes[$name]);
     }
 }

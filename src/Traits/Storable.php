@@ -10,8 +10,7 @@ trait Storable
      * @throws \Eduframe\Exceptions\ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function save(): static|bool
-    {
+    public function save(): static|bool {
         if ($this->exists()) {
             return $this->update();
         }
@@ -23,8 +22,7 @@ trait Storable
      * @throws \Eduframe\Exceptions\ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function insert(): static
-    {
+    public function insert(): static {
         $result = $this->connection()->post($this->getEndpoint(), $this->json());
 
         return $this->selfFromResponse($result);
@@ -34,8 +32,7 @@ trait Storable
      * @throws \Eduframe\Exceptions\ApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function update(): static|bool
-    {
+    public function update(): static|bool {
         $result = $this->connection()->patch($this->getEndpoint() . '/' . urlencode($this->id), $this->json());
 
         if ($result === 200) {
