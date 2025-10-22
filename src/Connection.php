@@ -5,6 +5,7 @@ namespace Eduframe;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request;
@@ -133,7 +134,7 @@ class Connection
 
     /**
      * @throws ApiException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function get(string $url, array $params = [], bool $fetchAll = false): array {
         try {
@@ -158,7 +159,7 @@ class Connection
 
     /**
      * @throws ApiException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function post(string $url, string $body): array {
         try {
@@ -173,7 +174,7 @@ class Connection
 
     /**
      * @throws ApiException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function patch(string $url, string $body): array {
         try {
@@ -188,7 +189,7 @@ class Connection
 
     /**
      * @throws ApiException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function delete(string $url, ?string $body = null): array {
         try {
@@ -203,7 +204,7 @@ class Connection
 
     /**
      * @throws ApiException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function upload(string $url, array $options): array {
         try {
@@ -259,10 +260,6 @@ class Connection
 
         $response = $exception->getResponse();
 
-        if (null === $response) {
-            return new ApiException('Response is NULL.', 0, $exception);
-        }
-
         Psr7\Message::rewindBody($response);
         $responseBody        = $response->getBody()->getContents();
         $decodedResponseBody = json_decode($responseBody, true);
@@ -283,7 +280,9 @@ class Connection
     private function formatUrl(string $url, string $method = 'get'): string {
         if ($this->stage === TESTING) {
             return 'https://api.testing.eduframe.dev/api/v1' . '/' . $url;
-        } elseif ($this->stage === STAGING) {
+        }
+
+        if ($this->stage === STAGING) {
             return 'https://api.edufra.me/api/v1' . '/' . $url;
         }
 

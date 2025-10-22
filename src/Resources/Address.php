@@ -10,6 +10,7 @@ class Address extends Resource
         'id',
         'addressee',
         'address',
+        'address_line2',
         'postal_code',
         'city',
         'country',
