@@ -10,7 +10,7 @@ class Label extends Resource
 {
     use FindAll, FindOne;
 
-    protected $fillable = [
+    protected array $fillable = [
         'id',
         'name',
         'color',
