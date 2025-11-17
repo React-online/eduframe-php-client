@@ -28,6 +28,7 @@ class CatalogProduct extends Resource
         'course_tab_contents',
         'custom',
         'labels',
+        'signup_url',
         'updated_at',
         'created_at'
     ];
