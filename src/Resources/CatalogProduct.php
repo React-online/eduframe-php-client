@@ -27,7 +27,7 @@ class CatalogProduct extends Resource
         'currency',
         'course_tab_contents',
         'custom',
-        'labels',
+        'label_ids',
         'signup_url',
         'updated_at',
         'created_at'
@@ -40,10 +40,6 @@ class CatalogProduct extends Resource
     protected array $multipleNestedEntities = [
         'course_tab_contents' => [
             'entity' => CourseTabContent::class,
-            'type'   => self::NESTING_TYPE_NESTED_OBJECTS,
-        ],
-        'labels' => [
-            'entity' => Label::class,
             'type'   => self::NESTING_TYPE_NESTED_OBJECTS,
         ],
     ];
