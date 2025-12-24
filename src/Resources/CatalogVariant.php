@@ -26,13 +26,7 @@ class CatalogVariant extends Resource
         'created_at',
         'available_places',
         'currency',
-        'course_variant',
-        'course_location',
-    ];
-
-    protected array $singleNestedEntities = [
-        'course_variant' => Variant::class,
-        'course_location' => Location::class,
+        'properties',
     ];
 
     protected string $endpoint = 'catalog/variants';
