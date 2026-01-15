@@ -13,6 +13,7 @@ class CatalogVariant extends Resource
     protected array $fillable = [
         'id',
         'name',
+        'sku',
         'product_id',
         'variantable_type',
         'variantable_id',
